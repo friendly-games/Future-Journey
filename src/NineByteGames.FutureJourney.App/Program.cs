@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace FutureJourney
+namespace NineByteGames.FutureJourney
 {
   /// <summary>
   /// The main class.
@@ -11,10 +13,12 @@ namespace FutureJourney
     /// The main entry point for the application.
     /// </summary>
     [STAThread]
-    static void Main()
+    private static void Main()
     {
-      using (var game = new Game1())
+      using (var game = new GameEntryPoint())
+      {
         game.Run();
+      }
     }
   }
 }

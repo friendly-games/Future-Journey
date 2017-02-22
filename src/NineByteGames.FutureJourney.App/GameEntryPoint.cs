@@ -1,21 +1,33 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using NineByteGames.FutureJourney.Resources;
+using NineByteGames.FutureJourney.World;
 
-namespace FutureJourney
+namespace NineByteGames.FutureJourney
 {
   /// <summary>
   /// This is the main type for your game.
   /// </summary>
-  public class Game1 : Game
+  public class GameEntryPoint : Game
   {
-    GraphicsDeviceManager graphics;
-    SpriteBatch spriteBatch;
+    private readonly WorldGrid _world;
+    private Vector2 _playerPosition;
 
-    public Game1()
+    private VisibleTileGridDrawer _visibleTileGridDrawer;
+    private InputManager _inputManager;
+    private Camera2D _camera;
+
+    public GameEntryPoint()
     {
-      graphics = new GraphicsDeviceManager(this);
+      var graphics = new GraphicsDeviceManager(this);
       Content.RootDirectory = "Content";
+
+      _world = new WorldGrid(new AspectStorageContainer());
+
+      _playerPosition = new Vector2(50, 50);
     }
 
     /// <summary>
@@ -26,8 +38,6 @@ namespace FutureJourney
     /// </summary>
     protected override void Initialize()
     {
-      // TODO: Add your initialization logic here
-
       base.Initialize();
     }
 
@@ -37,10 +47,13 @@ namespace FutureJourney
     /// </summary>
     protected override void LoadContent()
     {
-      // Create a new SpriteBatch, which can be used to draw textures.
-      spriteBatch = new SpriteBatch(GraphicsDevice);
+      var resourceHelper = new ResourceHelper(Content);
 
-      // TODO: use this.Content to load your game content here
+      GraphicsDevice device = GraphicsDevice;
+      _camera = new Camera2D(device);
+
+      _inputManager = new InputManager(this);
+      _visibleTileGridDrawer = new VisibleTileGridDrawer(_world, device, resourceHelper, _camera);
     }
 
     /// <summary>
@@ -49,7 +62,6 @@ namespace FutureJourney
     /// </summary>
     protected override void UnloadContent()
     {
-      // TODO: Unload any non ContentManager content here
     }
 
     /// <summary>
@@ -59,10 +71,10 @@ namespace FutureJourney
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
-      if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-        Exit();
+      _inputManager.Update(ref _playerPosition);
+      _camera.SetPosition(_playerPosition);
 
-      // TODO: Add your update logic here
+      _visibleTileGridDrawer.Update();
 
       base.Update(gameTime);
     }
@@ -73,7 +85,10 @@ namespace FutureJourney
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Draw(GameTime gameTime)
     {
-      GraphicsDevice.Clear(Color.CornflowerBlue);
+      GraphicsDevice.Clear(Color.Navy);
+
+      _visibleTileGridDrawer.Update();
+      _visibleTileGridDrawer.Draw();
 
       // TODO: Add your drawing code here
 
