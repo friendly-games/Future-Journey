@@ -40,15 +40,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CoreObject.cs" />
+    <Compile Include="Drawing\CharacterDrawer.cs" />
+    <Compile Include="Drawing\Constants.cs" />
     <Compile Include="GameEntryPoint.Camera2d.cs" />
     <Compile Include="GameEntryPoint.cs" />
     <Compile Include="InputManager.cs" />
-    <Compile Include="VisibleTileGridDrawer.cs" />
+    <Compile Include="Drawing\VisibleTileGridDrawer.cs" />
+    <Compile Include="Livings\Character.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\Implementations\PerlinNoiseProvider.cs" />
     <Compile Include="Providers\IPerlinNoiseProvider.cs" />
-    <Compile Include="Resources\ResourceHelper.cs" />
+    <Compile Include="Resources\ResourceLoader.cs" />
     <Compile Include="World\Chunk.cs" />
     <Compile Include="World\ChunkCoordinate.cs" />
     <Compile Include="World\ChunkInitializer.cs" />
@@ -80,6 +83,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
+    <Content Include="Content\images\characters.default.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\images\characters.player.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Content\images\tiles.default.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

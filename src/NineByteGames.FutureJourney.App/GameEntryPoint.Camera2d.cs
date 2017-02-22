@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NineByteGames.FutureJourney.Drawing;
 
 namespace NineByteGames.FutureJourney
 {
@@ -24,8 +25,8 @@ namespace NineByteGames.FutureJourney
       CameraCenter = cameraCenter;
 
       Matrix playerOffset;
-      Matrix.CreateTranslation(-cameraCenter.X * VisibleTileGridDrawer.PixelSize,
-                               cameraCenter.Y * VisibleTileGridDrawer.PixelSize,
+      Matrix.CreateTranslation(-cameraCenter.X * Constants.PixelSize,
+                               cameraCenter.Y * Constants.PixelSize,
                                0,
                                out playerOffset);
 

@@ -7,11 +7,11 @@ using Microsoft.Xna.Framework.Content;
 namespace NineByteGames.FutureJourney.Resources
 {
   /// <summary> Help for loading content from a <see cref="ContentManager"/>. </summary>
-  public class ResourceHelper
+  public class ResourceLoader
   {
     private readonly ContentManager _content;
 
-    public ResourceHelper(ContentManager content)
+    public ResourceLoader(ContentManager content)
     {
       _content = content;
     }

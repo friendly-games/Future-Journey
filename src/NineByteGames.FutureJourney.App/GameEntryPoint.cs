@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using NineByteGames.FutureJourney.Drawing;
+using NineByteGames.FutureJourney.Livings;
 using NineByteGames.FutureJourney.Resources;
 using NineByteGames.FutureJourney.World;
 
@@ -14,11 +16,12 @@ namespace NineByteGames.FutureJourney
   public class GameEntryPoint : Game
   {
     private readonly WorldGrid _world;
-    private Vector2 _playerPosition;
 
     private VisibleTileGridDrawer _visibleTileGridDrawer;
     private InputManager _inputManager;
     private Camera2D _camera;
+    private readonly Character _player;
+    private CharacterDrawer _characterDrawer;
 
     public GameEntryPoint()
     {
@@ -27,7 +30,10 @@ namespace NineByteGames.FutureJourney
 
       _world = new WorldGrid(new AspectStorageContainer());
 
-      _playerPosition = new Vector2(50, 50);
+      _player = new Character
+                {
+                  Position = new Vector2(50, 50)
+                };
     }
 
     /// <summary>
@@ -47,13 +53,14 @@ namespace NineByteGames.FutureJourney
     /// </summary>
     protected override void LoadContent()
     {
-      var resourceHelper = new ResourceHelper(Content);
+      var resourceHelper = new ResourceLoader(Content);
 
       GraphicsDevice device = GraphicsDevice;
       _camera = new Camera2D(device);
 
       _inputManager = new InputManager(this);
       _visibleTileGridDrawer = new VisibleTileGridDrawer(_world, device, resourceHelper, _camera);
+      _characterDrawer = new CharacterDrawer(resourceHelper, GraphicsDevice, _camera);
     }
 
     /// <summary>
@@ -71,8 +78,8 @@ namespace NineByteGames.FutureJourney
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
-      _inputManager.Update(ref _playerPosition);
-      _camera.SetPosition(_playerPosition);
+      _inputManager.Update(ref _player.Position);
+      _camera.SetPosition(_player.Position);
 
       _visibleTileGridDrawer.Update();
 
@@ -87,8 +94,8 @@ namespace NineByteGames.FutureJourney
     {
       GraphicsDevice.Clear(Color.Navy);
 
-      _visibleTileGridDrawer.Update();
       _visibleTileGridDrawer.Draw();
+      _characterDrawer.Draw(_player, CharacterTypes.Player);
 
       // TODO: Add your drawing code here
 

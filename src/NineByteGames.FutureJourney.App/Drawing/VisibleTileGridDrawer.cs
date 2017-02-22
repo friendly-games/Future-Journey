@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using NineByteGames.FutureJourney.Resources;
 using NineByteGames.FutureJourney.World;
 
-namespace NineByteGames.FutureJourney
+namespace NineByteGames.FutureJourney.Drawing
 {
   /// <summary> Responsible for drawing the grid of tiles that are visible to the user. </summary>
   public class VisibleTileGridDrawer
@@ -16,10 +16,7 @@ namespace NineByteGames.FutureJourney
     private readonly WorldGridSlice<int> _worldView;
     private readonly SpriteBatch _spriteBatch;
 
-    public const int PixelSize = 16;
-    private const int HalfPixelSize = PixelSize / 2;
-
-    public VisibleTileGridDrawer(WorldGrid world, GraphicsDevice device, ResourceHelper resources, Camera2D camera2D)
+    public VisibleTileGridDrawer(WorldGrid world, GraphicsDevice device, ResourceLoader resources, Camera2D camera2D)
     {
       // Create a new SpriteBatch, which can be used to draw textures.
       _spriteBatch = new SpriteBatch(device);
@@ -27,8 +24,8 @@ namespace NineByteGames.FutureJourney
       _tileTextures = resources.MapEnumToResources<TileType, Texture2D>("images/tiles.");
 
       _worldView = new WorldGridSlice<int>(world,
-                                           device.Viewport.Width / PixelSize + 2,
-                                           device.Viewport.Height / PixelSize + 2);
+                                           device.Viewport.Width / Constants.PixelSize + 2,
+                                           device.Viewport.Height / Constants.PixelSize + 2);
       _worldView.Initialize(new GridCoordinate(0, 0));
       _camera = camera2D;
     }
@@ -54,8 +51,9 @@ namespace NineByteGames.FutureJourney
         var rotation = (float)Math.PI / 2.0f * item.GridItem.Variant;
 
         _spriteBatch.Draw(sprite,
-                          new Vector2(item.Position.X * PixelSize - PixelSize, -item.Position.Y * PixelSize - PixelSize),
-                          origin: new Vector2(HalfPixelSize, HalfPixelSize),
+                          new Vector2(item.Position.X * Constants.PixelSize - Constants.PixelSize,
+                                      -item.Position.Y * Constants.PixelSize - Constants.PixelSize),
+                          origin: new Vector2(Constants.HalfPixelSize, Constants.HalfPixelSize),
                           rotation: rotation);
       }
 
