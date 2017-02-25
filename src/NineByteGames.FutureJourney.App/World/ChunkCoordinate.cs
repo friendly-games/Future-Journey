@@ -16,6 +16,12 @@ namespace NineByteGames.FutureJourney.World
       Y = y;
     }
 
+    public static ChunkCoordinate Invalid { get; }
+      = new ChunkCoordinate(-1, -1);
+
+    public int GetAbsoluteIndex()
+      => X + Y * WorldGrid.NumberOfChunksWide;
+
     public bool Equals(ChunkCoordinate other)
     {
       return X == other.X && Y == other.Y;

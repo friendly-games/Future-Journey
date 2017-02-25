@@ -15,7 +15,7 @@ namespace NineByteGames.FutureJourney
       _game = game;
     }
 
-    public void Update(ref Vector2 playerPosition)
+    public void Update(ref Vector2 playerPosition, GameTime gameTime)
     {
       KeyboardState keyboardState = Keyboard.GetState();
 
@@ -24,7 +24,12 @@ namespace NineByteGames.FutureJourney
         _game.Exit();
       }
 
-      var moveSpeed = 0.5f;
+      float moveSpeed = 10.0f * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+      if (keyboardState.IsKeyDown(Keys.LeftShift))
+      {
+        moveSpeed *= 0.5f;
+      }
 
       if (keyboardState.IsKeyDown(Keys.A))
         playerPosition.X -= moveSpeed;

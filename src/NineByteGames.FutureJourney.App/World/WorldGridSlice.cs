@@ -146,8 +146,8 @@ namespace NineByteGames.FutureJourney.World
       var amountToOffsetX = xDiff > 0 ? _numUnitsWideHalfThreshold + 1 : -_numUnitsWideHalfThreshold;
       var amountToOffsetY = yDiff > 0 ? _numUnitsHighHalfThreshold + 1 : -_numUnitsHighHalfThreshold;
 
-      var start = previousCoordinate.Offset(amountToOffsetX, amountToOffsetY);
-      var end = _currentPosition.Offset(amountToOffsetX, amountToOffsetY);
+      var start = previousCoordinate.OffsetBy(amountToOffsetX, amountToOffsetY);
+      var end = _currentPosition.OffsetBy(amountToOffsetX, amountToOffsetY);
 
       var startColumn = start.X;
       var endColumn = end.X;
@@ -373,7 +373,7 @@ namespace NineByteGames.FutureJourney.World
         ? difViewY + -signY * _visibleGridItems.Height
         : difViewY;
 
-      var gridPosition = _currentPosition.Offset(-offsetX, -offsetY);
+      var gridPosition = _currentPosition.OffsetBy(-offsetX, -offsetY);
 
       ValidateConversion(gridPosition, arrayIndex);
 

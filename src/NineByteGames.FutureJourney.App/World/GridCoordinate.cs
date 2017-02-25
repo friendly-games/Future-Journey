@@ -31,7 +31,7 @@ namespace NineByteGames.FutureJourney.World
     }
 
     /// <summary> Create a new GridCoordinate that adds the given offset to this coordinate. </summary>
-    public GridCoordinate Offset(int x, int y)
+    public GridCoordinate OffsetBy(int x, int y)
     {
       return new GridCoordinate(X + x, Y + y);
     }

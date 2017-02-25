@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using NineByteGames.FutureJourney.Drawing;
 using NineByteGames.FutureJourney.Livings;
+using NineByteGames.FutureJourney.Physics;
 using NineByteGames.FutureJourney.Resources;
 using NineByteGames.FutureJourney.World;
 
@@ -23,6 +25,9 @@ namespace NineByteGames.FutureJourney
     private readonly Character _player;
     private CharacterDrawer _characterDrawer;
 
+    private readonly DynamicBody _playerBody;
+    private readonly GridBasedPhysicsEngine _physics;
+
     public GameEntryPoint()
     {
       var graphics = new GraphicsDeviceManager(this);
@@ -32,8 +37,11 @@ namespace NineByteGames.FutureJourney
 
       _player = new Character
                 {
-                  Position = new Vector2(50, 50)
+                  Position = new Vector2(10, 10)
                 };
+
+      _physics = new GridBasedPhysicsEngine(_world);
+      _playerBody = new DynamicBody();
     }
 
     /// <summary>
@@ -61,7 +69,16 @@ namespace NineByteGames.FutureJourney
       _inputManager = new InputManager(this);
       _visibleTileGridDrawer = new VisibleTileGridDrawer(_world, device, resourceHelper, _camera);
       _characterDrawer = new CharacterDrawer(resourceHelper, GraphicsDevice, _camera);
+
+      spriteBatch = new SpriteBatch(GraphicsDevice);
+      dummyTexture = new Texture2D(GraphicsDevice, 1, 1);
+      dummyTexture.SetData(Enumerable.Repeat(Color.White, 1 * 1).ToArray());
     }
+
+    private SpriteBatch spriteBatch;
+    private Texture2D dummyTexture;
+    private readonly Rectangle dummyRectangle;
+    private readonly Color Colori = Color.Red;
 
     /// <summary>
     /// UnloadContent will be called once per game and is the place to unload
@@ -78,7 +95,24 @@ namespace NineByteGames.FutureJourney
     /// <param name="gameTime">Provides a snapshot of timing values.</param>
     protected override void Update(GameTime gameTime)
     {
-      _inputManager.Update(ref _player.Position);
+      _playerBody.Position = _player.Position;
+      _inputManager.Update(ref _playerBody.Position, gameTime);
+
+      if (!_physics.IsInvalid(_playerBody))
+      {
+        _player.Position = _playerBody.Position;
+      }
+
+      if (Keyboard.GetState().IsKeyDown(Keys.R))
+      {
+        _player.Position = new Vector2(10, 10);
+      }
+
+      if (Keyboard.GetState().IsKeyDown(Keys.Z))
+      {
+        _player.Position = new Vector2(0, 0);
+      }
+
       _camera.SetPosition(_player.Position);
 
       _visibleTileGridDrawer.Update();
@@ -97,7 +131,17 @@ namespace NineByteGames.FutureJourney
       _visibleTileGridDrawer.Draw();
       _characterDrawer.Draw(_player, CharacterTypes.Player);
 
-      // TODO: Add your drawing code here
+      var box = _playerBody.GetGridBounds();
+
+      spriteBatch.Begin(transformMatrix: _camera.TransformMatrix);
+      spriteBatch.Draw(
+        dummyTexture,
+        new Vector2(box.XMin + box.Width / 2.0f, -box.YMin - box.Height / 2.0f) * Constants.PixelSize,
+        origin: new Vector2(0.5f, 0.5f),
+        sourceRectangle: new Rectangle(0, 0, 1, 1),
+        scale: new Vector2(box.Width, box.Height) * Constants.PixelSize,
+        color: new Color(128, 128, 128, 128));
+      spriteBatch.End();
 
       base.Draw(gameTime);
     }

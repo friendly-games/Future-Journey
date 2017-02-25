@@ -14,6 +14,7 @@ namespace NineByteGames.FutureJourney.Drawing
     private readonly Texture2D[] _tileTextures;
     private readonly Camera2D _camera;
     private readonly WorldGridSlice<int> _worldView;
+
     private readonly SpriteBatch _spriteBatch;
 
     public VisibleTileGridDrawer(WorldGrid world, GraphicsDevice device, ResourceLoader resources, Camera2D camera2D)
@@ -36,6 +37,14 @@ namespace NineByteGames.FutureJourney.Drawing
       _worldView.Recenter(new GridCoordinate(_camera.CameraCenter));
     }
 
+    private static readonly Vector2 MiddleOfTextureSizedAsGridUnit
+      = new Vector2(0.5f, 0.5f) * Constants.PixelSize;
+
+    private static readonly Vector2 NoScale
+      = new Vector2(1, 1);
+
+    private static readonly Color NoColor = Color.White;
+
     /// <summary> Draws all of the grids that are around the center of the camera. </summary>
     public void Draw()
     {
@@ -50,11 +59,17 @@ namespace NineByteGames.FutureJourney.Drawing
 
         var rotation = (float)Math.PI / 2.0f * item.GridItem.Variant;
 
-        _spriteBatch.Draw(sprite,
-                          new Vector2(item.Position.X * Constants.PixelSize - Constants.PixelSize,
-                                      -item.Position.Y * Constants.PixelSize - Constants.PixelSize),
-                          origin: new Vector2(Constants.HalfPixelSize, Constants.HalfPixelSize),
-                          rotation: rotation);
+        _spriteBatch.Draw(
+          texture: sprite,
+          position: new Vector2(item.Position.X + .5f, -item.Position.Y - .5f) * Constants.PixelSize,
+          sourceRectangle: null,
+          color: NoColor,
+          rotation: rotation,
+          origin: MiddleOfTextureSizedAsGridUnit,
+          scale: NoScale,
+          effects: SpriteEffects.None,
+          layerDepth: 0f
+        );
       }
 
       _spriteBatch.End();

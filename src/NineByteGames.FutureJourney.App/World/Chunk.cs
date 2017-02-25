@@ -50,10 +50,15 @@ namespace NineByteGames.FutureJourney.World
       Storage = storage;
       Position = position;
       _items = new GridItem[NumberOfGridItemsWide * NumberOfGridItemsHigh];
+
+      AbsoluteIndex = Position.GetAbsoluteIndex();
     }
 
     /// <summary> The position of the given chunk. </summary>
     public ChunkCoordinate Position { get; set; }
+
+    /// <summary> The absolute index of the chunk within the world. </summary>
+    public int AbsoluteIndex { get; }
 
     /// <summary> The storage location of entities belonging to this chunk. </summary>
     public AspectStorageContainer Storage { get; private set; }

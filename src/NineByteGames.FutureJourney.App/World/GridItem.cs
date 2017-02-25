@@ -32,5 +32,8 @@ namespace NineByteGames.FutureJourney.World
 
     /// <summary> The entity for this grid item. </summary>
     public Entity Entity;
+
+    public bool IsFilled
+      => Type == TileType.Hill;
   }
 }

@@ -26,7 +26,7 @@ namespace NineByteGames.FutureJourney
 
       Matrix playerOffset;
       Matrix.CreateTranslation(-cameraCenter.X * Constants.PixelSize,
-                               cameraCenter.Y * Constants.PixelSize,
+                               cameraCenter.Y * Constants.PixelSize + Constants.PixelSize,
                                0,
                                out playerOffset);
 

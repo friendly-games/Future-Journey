@@ -31,9 +31,11 @@ namespace NineByteGames.FutureJourney.Drawing
 
       var position = character.Position;
 
-      _spriteBatch.Draw(sprite,
-                        new Vector2(position.X * Constants.PixelSize, -position.Y * Constants.PixelSize),
-                        origin: new Vector2(Constants.HalfPixelSize, Constants.HalfPixelSize));
+      _spriteBatch.Draw(
+        sprite,
+        new Vector2(position.X, -position.Y) * Constants.PixelSize,
+        origin: new Vector2(Constants.HalfPixelSize, Constants.HalfPixelSize)
+      );
 
       _spriteBatch.End();
     }
