@@ -40,8 +40,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CoreObject.cs" />
+    <Compile Include="Drawing\DebugRenderer.cs" />
     <Compile Include="Drawing\CharacterDrawer.cs" />
     <Compile Include="Drawing\Constants.cs" />
+    <Compile Include="Drawing\TextureRenderer.cs" />
     <Compile Include="GameEntryPoint.Camera2d.cs" />
     <Compile Include="GameEntryPoint.cs" />
     <Compile Include="InputManager.cs" />

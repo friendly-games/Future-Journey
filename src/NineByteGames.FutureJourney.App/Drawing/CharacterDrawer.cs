@@ -11,33 +11,30 @@ namespace NineByteGames.FutureJourney.Drawing
 {
   public class CharacterDrawer
   {
-    private readonly Camera2D _camera;
     private readonly Texture2D[] _textureLookup;
-    private readonly SpriteBatch _spriteBatch;
+    private readonly TextureRenderer _renderer;
 
-    public CharacterDrawer(ResourceLoader loader, GraphicsDevice device, Camera2D camera)
+    public CharacterDrawer(GraphicsDevice device, ResourceLoader loader, Camera2D camera)
     {
-      _spriteBatch = new SpriteBatch(device);
-
-      _camera = camera;
       _textureLookup = loader.MapEnumToResources<CharacterTypes, Texture2D>("images/characters.");
+
+      _renderer = new TextureRenderer(camera, new SpriteBatch(device))
+                  {
+                    Offset = new Vector2(0.5f, 0.5f) * Constants.PixelSize,
+                  };
     }
 
     public void Draw(Character character, CharacterTypes type)
     {
-      _spriteBatch.Begin(transformMatrix: _camera.TransformMatrix);
+      _renderer.Begin();
 
       var sprite = _textureLookup[(int)type];
 
       var position = character.Position;
 
-      _spriteBatch.Draw(
-        sprite,
-        new Vector2(position.X, -position.Y) * Constants.PixelSize,
-        origin: new Vector2(Constants.HalfPixelSize, Constants.HalfPixelSize)
-      );
+      _renderer.Draw(sprite, new Vector2(position.X, position.Y));
 
-      _spriteBatch.End();
+      _renderer.End();
     }
   }
 

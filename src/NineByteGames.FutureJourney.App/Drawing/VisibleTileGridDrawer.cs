@@ -15,13 +15,13 @@ namespace NineByteGames.FutureJourney.Drawing
     private readonly Camera2D _camera;
     private readonly WorldGridSlice<int> _worldView;
 
-    private readonly SpriteBatch _spriteBatch;
+    private readonly TextureRenderer _renderer;
 
-    public VisibleTileGridDrawer(WorldGrid world, GraphicsDevice device, ResourceLoader resources, Camera2D camera2D)
+    public VisibleTileGridDrawer(GraphicsDevice device,
+                                 ResourceLoader resources,
+                                 WorldGrid world,
+                                 Camera2D camera2D)
     {
-      // Create a new SpriteBatch, which can be used to draw textures.
-      _spriteBatch = new SpriteBatch(device);
-
       _tileTextures = resources.MapEnumToResources<TileType, Texture2D>("images/tiles.");
 
       _worldView = new WorldGridSlice<int>(world,
@@ -29,6 +29,11 @@ namespace NineByteGames.FutureJourney.Drawing
                                            device.Viewport.Height / Constants.PixelSize + 2);
       _worldView.Initialize(new GridCoordinate(0, 0));
       _camera = camera2D;
+
+      _renderer = new TextureRenderer(_camera, new SpriteBatch(device))
+                  {
+                    Offset = new Vector2(0.5f, 0.5f) * Constants.PixelSize
+                  };
     }
 
     /// <summary> Updates the center based on the position of the camera. </summary>
@@ -37,18 +42,10 @@ namespace NineByteGames.FutureJourney.Drawing
       _worldView.Recenter(new GridCoordinate(_camera.CameraCenter));
     }
 
-    private static readonly Vector2 MiddleOfTextureSizedAsGridUnit
-      = new Vector2(0.5f, 0.5f) * Constants.PixelSize;
-
-    private static readonly Vector2 NoScale
-      = new Vector2(1, 1);
-
-    private static readonly Color NoColor = Color.White;
-
     /// <summary> Draws all of the grids that are around the center of the camera. </summary>
     public void Draw()
     {
-      _spriteBatch.Begin(transformMatrix: _camera.TransformMatrix);
+      _renderer.Begin();
 
       foreach (var item in _worldView.VisibleGridItems.Data)
       {
@@ -59,20 +56,10 @@ namespace NineByteGames.FutureJourney.Drawing
 
         var rotation = (float)Math.PI / 2.0f * item.GridItem.Variant;
 
-        _spriteBatch.Draw(
-          texture: sprite,
-          position: new Vector2(item.Position.X + .5f, -item.Position.Y - .5f) * Constants.PixelSize,
-          sourceRectangle: null,
-          color: NoColor,
-          rotation: rotation,
-          origin: MiddleOfTextureSizedAsGridUnit,
-          scale: NoScale,
-          effects: SpriteEffects.None,
-          layerDepth: 0f
-        );
+        _renderer.Draw(sprite, new Vector2(item.Position.X + .5f, item.Position.Y + .5f), rotation);
       }
 
-      _spriteBatch.End();
+      _renderer.End();
     }
 
     /// <summary> Gets the sprite for the given GridItem. </summary>

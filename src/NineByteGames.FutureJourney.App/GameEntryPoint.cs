@@ -27,6 +27,7 @@ namespace NineByteGames.FutureJourney
 
     private readonly DynamicBody _playerBody;
     private readonly GridBasedPhysicsEngine _physics;
+    private DebugRenderer _debugDraw;
 
     public GameEntryPoint()
     {
@@ -67,8 +68,9 @@ namespace NineByteGames.FutureJourney
       _camera = new Camera2D(device);
 
       _inputManager = new InputManager(this);
-      _visibleTileGridDrawer = new VisibleTileGridDrawer(_world, device, resourceHelper, _camera);
-      _characterDrawer = new CharacterDrawer(resourceHelper, GraphicsDevice, _camera);
+      _visibleTileGridDrawer = new VisibleTileGridDrawer(device, resourceHelper, _world, _camera);
+      _characterDrawer = new CharacterDrawer(GraphicsDevice, resourceHelper, _camera);
+      _debugDraw = new DebugRenderer(device, _camera);
 
       spriteBatch = new SpriteBatch(GraphicsDevice);
       dummyTexture = new Texture2D(GraphicsDevice, 1, 1);
@@ -133,15 +135,9 @@ namespace NineByteGames.FutureJourney
 
       var box = _playerBody.GetGridBounds();
 
-      spriteBatch.Begin(transformMatrix: _camera.TransformMatrix);
-      spriteBatch.Draw(
-        dummyTexture,
-        new Vector2(box.XMin + box.Width / 2.0f, -box.YMin - box.Height / 2.0f) * Constants.PixelSize,
-        origin: new Vector2(0.5f, 0.5f),
-        sourceRectangle: new Rectangle(0, 0, 1, 1),
-        scale: new Vector2(box.Width, box.Height) * Constants.PixelSize,
-        color: new Color(128, 128, 128, 128));
-      spriteBatch.End();
+      _debugDraw.Begin();
+      _debugDraw.Draw(box);
+      _debugDraw.End();
 
       base.Draw(gameTime);
     }
