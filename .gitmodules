@@ -1,0 +1,3 @@
+[submodule "lib/VelcroPhysics"]
+	path = lib/VelcroPhysics
+	url = https://github.com/VelcroPhysics/VelcroPhysics.git

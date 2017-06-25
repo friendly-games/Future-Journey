@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineByteGames.FutureJourney.App", "src\NineByteGames.FutureJourney.App\NineByteGames.FutureJourney.App.csproj", "{2BEAECF7-26B1-43AF-957F-099825BEA4F2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NineByteGames.Common", "src\NineByteGames.Common\NineByteGames.Common.csproj", "{6BF25D34-DE1B-4F12-99C2-B64DD0F83018}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{7D3F75C1-9CA1-4271-BDD2-3FACDE1BECD8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VelcroPhysics.MonoGame", "lib\VelcroPhysics\VelcroPhysics\VelcroPhysics.MonoGame.csproj", "{33CEE2F7-13DE-4909-9994-3F92FD0C2712}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,8 +33,19 @@ Global
 		{6BF25D34-DE1B-4F12-99C2-B64DD0F83018}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6BF25D34-DE1B-4F12-99C2-B64DD0F83018}.Release|x86.ActiveCfg = Release|Any CPU
 		{6BF25D34-DE1B-4F12-99C2-B64DD0F83018}.Release|x86.Build.0 = Release|Any CPU
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712}.Debug|x86.Build.0 = Debug|Any CPU
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712}.Release|x86.ActiveCfg = Release|Any CPU
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{33CEE2F7-13DE-4909-9994-3F92FD0C2712} = {7D3F75C1-9CA1-4271-BDD2-3FACDE1BECD8}
 	EndGlobalSection
 EndGlobal

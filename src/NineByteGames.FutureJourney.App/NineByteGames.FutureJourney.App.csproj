@@ -116,6 +116,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\VelcroPhysics\VelcroPhysics\VelcroPhysics.MonoGame.csproj">
+      <Project>{33cee2f7-13de-4909-9994-3f92fd0c2712}</Project>
+      <Name>VelcroPhysics.MonoGame</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NineByteGames.Common\NineByteGames.Common.csproj">
       <Project>{6bf25d34-de1b-4f12-99c2-b64dd0f83018}</Project>
       <Name>NineByteGames.Common</Name>
